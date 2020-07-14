@@ -1,4 +1,6 @@
 from src.controller.RecommendationController import RecommendationController
+import proto_pb2_grpc
+import proto_pb2
 
 
 # Service class
