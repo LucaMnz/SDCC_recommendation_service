@@ -1,6 +1,7 @@
 from src.controller.RecommendationController import RecommendationController
 import proto_pb2_grpc
 import proto_pb2
+import grpc
 
 
 # Service class
@@ -15,8 +16,12 @@ class RecommendationService:
 
     # Call user service to get favorite restaurant by ID
     def get_user_favorite(self, id):
-        # TODO: remote call to user service
-        return 'Burger King'
+        # remote call to user service
+        channel = grpc.insecure_channel('localhost:50051')
+        stub = proto_pb2_grpc.sdcc_user_serviceStub(channel)
+        user = stub.findByID(proto_pb2.IDMessage(id=id))
+        favorite = user.preferito.preferito
+        return favorite
 
     # Ask k-nn for recommendation
     # Call to user service
